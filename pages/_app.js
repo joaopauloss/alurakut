@@ -1,5 +1,6 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import { AlurakutStyles } from '../src/lib/AlurakutCommons'
+// import background from '../src/img/A11fIxcmFtL._AC_SL1500_.jpg'
 
 const GlobalStyle = createGlobalStyle`
 /* Reset CSS */
@@ -12,6 +13,13 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: sans-serif;
     background-color: #F1F9FE;
+    /* background-image: "url(A11fIxcmFtL._AC_SL1500_.jpg)"; */
+    background-image: url("https://m.media-amazon.com/images/I/A11fIxcmFtL._AC_SL1500_.jpg");
+    height: 100%; 
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
   }
 
   #__next {
