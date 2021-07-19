@@ -34,7 +34,7 @@ function ProfileRelationsBox(prop) {
         {/* {seguidores.map((itemAtual) => {
           return (
             <li key={itemAtual}>
-              <a href={`https://github.com/${itemAtual.}`} key={itemAtual}>
+              <a href={`https://github.com/${itemAtual}`} key={itemAtual}>
                 <img src={`https://github.com/${itemAtual}.png`} />
                 <span>{itemAtual}</span>
               </a>
@@ -50,11 +50,7 @@ function ProfileRelationsBox(prop) {
 
 export default function Home() {
   const usuarioAleatorio = 'joaopauloss';
-  const [comunidades, setComunidades] = React.useState([{
-    id: '213435235623465463463456345',
-    title: 'Eu odeio acordar cedo',
-    image: 'https://alurakut.vercel.app/capa-comunidade-01.jpg'
-  }]); /** hooks */
+  const [comunidades, setComunidades] = React.useState([]); /** hooks */
   // const comunidades = comunidades[0];
   // const alteradorDeComunidaes/setComunidades = comunidades[1];
 
@@ -64,9 +60,7 @@ export default function Home() {
     'juunegreiros',
     'omariosouto',
     'peas',
-    'rafaballerini', 
-    'erodac',
-    'PauloMarvin'
+    'rafaballerini'
   ]
 
   const [seguidores, setSeguidores] = React.useState([]);
@@ -81,6 +75,33 @@ export default function Home() {
     .then(function (respostaCompleta) {
       setSeguidores(respostaCompleta);
     })
+
+    // API GraphQL
+    fetch('https://graphql.datocms.com/', {
+      method: 'POST',
+      headers: {
+        'Authorization': '18962c15817e8b0f53b3af67241f69',
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({ "query": `query {
+                                        allCommunities {
+                                          title
+                                          id
+                                          imageUrl
+                                          creatorSlug
+                                        }
+                                      }` })
+      })
+      .then((response) => response.json()) // same as: 
+                                                  // .then(function () {
+                                                  //   return response.json();
+                                                  // })
+      .then((respostaCompleta) => {
+        const comunidadesVindasDoDato = respostaCompleta.data.allCommunities
+        console.log(respostaCompleta);
+        setComunidades(comunidadesVindasDoDato);
+      })
   }, []) //array que mostrando que deve ser executado. Se for vazio, será executando apenas uma vez.
 
 
@@ -111,14 +132,26 @@ export default function Home() {
               console.log('Campo: ', dadosDoForm.get('image'));
 
               const comunidade = {
-                id: new Date().toISOString(),
                 title: dadosDoForm.get('title'),
-                image: dadosDoForm.get('image'),
+                imageUrl: dadosDoForm.get('image'),
+                creatorSlug: usuarioAleatorio
               }
-              // comunidades.push('Alura Stars');
-              const comunidadesAtualizadas = [...comunidades, comunidade];
 
-              setComunidades(comunidadesAtualizadas);
+              fetch('/api/comunidades', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(comunidade)
+              })
+              .then(async (response) => {
+                const dados = await response.json();
+                console.log(dados.registroCriado);
+                const comunidade = dados.registroCriado;
+                const comunidadesAtualizadas = [...comunidades, comunidade];
+                setComunidades(comunidadesAtualizadas);
+              })
+              
               console.log(comunidades);
 
           }}>
@@ -144,8 +177,8 @@ export default function Home() {
             {comunidades.map((itemAtual) => {
               return (
                 <li key={itemAtual.id}>
-                  <a href={`/users/${itemAtual.title}`} key={itemAtual.title}>
-                    <img src={itemAtual.image} />
+                  <a href={`/communities/${itemAtual.title}`} key={itemAtual.id}>
+                    <img src={itemAtual.imageUrl} />
                     <span>{itemAtual.title}</span>
                   </a>
                 </li>
