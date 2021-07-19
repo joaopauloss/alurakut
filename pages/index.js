@@ -13,13 +13,36 @@ function ProfileSidebar(properties) {
       <hr />
         <p>
           <a className="boxLink" href={`https://github.com/${properties.githubUser}`}>
-            @{properties.githubUser}  {/** what ???? */}
+            @{properties.githubUser}
           </a>
         </p>
       <hr />
 
       <AlurakutProfileSidebarMenuDefault />
     </Box>
+  )
+}
+
+function ProfileRelationsBox(prop) {
+  return (
+    <ProfileRelationsBoxWrapper>
+      <h2 className="smallTitle">
+        {prop.title} ({prop.items.length})
+      </h2>
+
+      <ul>
+        {/* {seguidores.map((itemAtual) => {
+          return (
+            <li key={itemAtual}>
+              <a href={`https://github.com/${itemAtual.}`} key={itemAtual}>
+                <img src={`https://github.com/${itemAtual}.png`} />
+                <span>{itemAtual}</span>
+              </a>
+            </li>
+          )
+        })} */}
+      </ul>
+    </ProfileRelationsBoxWrapper>
   )
 }
 
@@ -45,6 +68,23 @@ export default function Home() {
     'erodac',
     'PauloMarvin'
   ]
+
+  const [seguidores, setSeguidores] = React.useState([]);
+
+  // 0 - Pegar o array de dados do github
+
+  React.useEffect(function () { //intereptador de qualquer evento no react
+    fetch('https://api.github.com/users/peas/followers')
+    .then(function (respostaDoServidor) {
+      return respostaDoServidor.json();
+    })
+    .then(function (respostaCompleta) {
+      setSeguidores(respostaCompleta);
+    })
+  }, []) //array que mostrando que deve ser executado. Se for vazio, será executando apenas uma vez.
+
+
+  // 1 - Criar um box que vai ter um map, baseado nos items do array do github
 
   return (
     <>
@@ -95,6 +135,7 @@ export default function Home() {
         </Box>
       </div>
       <div className="profileRelationsArea" style={{ gridArea: 'profileRelationsArea' }}>
+        <ProfileRelationsBox title="Seguidores" items={seguidores} />
         <ProfileRelationsBoxWrapper>
           <h2 className="smallTitle">
               Comunidades ({comunidades.length})
@@ -131,9 +172,6 @@ export default function Home() {
           </ul>
 
         </ProfileRelationsBoxWrapper>
-        <Box>
-          Comunidades
-        </Box>
       </div>
     </MainGrid>
     </>
