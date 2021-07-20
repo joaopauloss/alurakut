@@ -4,6 +4,8 @@ import MainGrid from '../src/components/MainGrid'
 import Box from '../src/components/Box'
 import { AlurakutMenu, AlurakutProfileSidebarMenuDefault, OrkutNostalgicIconSet } from '../src/lib/AlurakutCommons.js'
 import { ProfileRelationsBoxWrapper } from '../src/components/ProfileRealations';
+import nookies from 'nookies';
+import jwt from 'jsonwebtoken';
 
 function ProfileSidebar(properties) {
   console.log(properties);
@@ -48,8 +50,8 @@ function ProfileRelationsBox(prop) {
 
 
 
-export default function Home() {
-  const usuarioAleatorio = 'joaopauloss';
+export default function Home(props) {
+  const usuarioAleatorio = props.githubUser;
   const [comunidades, setComunidades] = React.useState([]); /** hooks */
   // const comunidades = comunidades[0];
   // const alteradorDeComunidaes/setComunidades = comunidades[1];
@@ -209,4 +211,25 @@ export default function Home() {
     </MainGrid>
     </>
   )
+}
+
+export async function getServerSideProps(context) {
+  const cookies = nookies.get(context);
+  const token = cookies.USER_TOKEN;
+  const { githubUser } = jwt.decode(token);
+
+  const { isAuthenticated } = await fetch('http://localhost:3000/api/auth', {
+    headers: {
+      Authorization: token,
+    }
+  })
+  .then((resposta) => resposta.json())
+
+  console.log('isAuthenticated', isAuthenticated)
+  
+  return {
+    props: {
+      githubUser  // se o nome da variavel é o mesmo nome da chave nao precisa adicionar o valor.
+    }, // will be passed to the page component as props
+  }
 }
