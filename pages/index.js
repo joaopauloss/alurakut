@@ -59,10 +59,10 @@ export default function Home(props) {
   console.log(comunidades);
   
   const pessoasFavoritas = [
-    'juunegreiros',
-    'omariosouto',
-    'peas',
-    'rafaballerini'
+    'Luke',
+    'Yoda',
+    'Solo',
+    'R2'
   ]
 
   const [seguidores, setSeguidores] = React.useState([]);
@@ -198,7 +198,7 @@ export default function Home(props) {
               return (
                 <li key={itemAtual}>
                   <a href={`/users/${itemAtual}`} key={itemAtual}>
-                    <img src={`https://github.com/${itemAtual}.png`} />
+                    <img src={`/${itemAtual}.png`} />
                     <span>{itemAtual}</span>
                   </a>
                 </li>
@@ -216,9 +216,8 @@ export default function Home(props) {
 export async function getServerSideProps(context) {
   const cookies = nookies.get(context);
   const token = cookies.USER_TOKEN;
-  const { githubUser } = jwt.decode(token);
-
-  const { isAuthenticated } = await fetch('http://localhost:3000/api/auth', {
+  // const { isAuthenticated } = await fetch('http://localhost:3000/api/auth', { // local run
+  const { isAuthenticated } = await fetch('https://alurakut-joaopauloss.vercel.app/api/auth', {
     headers: {
       Authorization: token,
     }
@@ -226,7 +225,18 @@ export async function getServerSideProps(context) {
   .then((resposta) => resposta.json())
 
   console.log('isAuthenticated', isAuthenticated)
+
+  if(!isAuthenticated) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false
+      }
+    }
+  }
   
+  const { githubUser } = jwt.decode(token);
+
   return {
     props: {
       githubUser  // se o nome da variavel é o mesmo nome da chave nao precisa adicionar o valor.

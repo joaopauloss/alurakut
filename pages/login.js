@@ -12,9 +12,9 @@ export default function LoginScreen() {
             <section className="logoArea">
             <img src="logo.svg" />
 
-            <p><strong>Conecte-se</strong> aos seus amigos e familiares usando recados e mensagens instantâneas</p>
-            <p><strong>Conheça</strong> novas pessoas através de amigos de seus amigos e comunidades</p>
-            <p><strong>Compartilhe</strong> seus vídeos, fotos e paixões em um só lugar</p>
+            <p>Usando recados e mensagens instantâneas aos seus amigos e familiares <strong>Conecte-se</strong></p>
+            <p>Através de amigos de seus amigos e comunidades novas pessoas <strong>Conheça</strong></p>
+            <p>Em um só lugar seus vídeos, fotos e paixões <strong>Compartilhe</strong> </p>
             </section>
 
             <section className="formArea">
@@ -46,10 +46,10 @@ export default function LoginScreen() {
                     setGithubUser(event.target.value);
                 }}
             />
-            {githubUser.length === 0 
+            {/* {githubUser.length === 0 // mostra aviso em tempo real
                 ? 'Informe usuário'
                 : ''
-            }   
+            }    */}
             <button type="submit">
                 Login
             </button>

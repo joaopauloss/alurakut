@@ -40,7 +40,7 @@ export function AlurakutMenu({ githubUser }) {
             Sair
           </a>
           <div>
-            <input placeholder="Pesquisar no Orkut" />
+            <input placeholder="Pesquisar no Star Warsrkut" />
           </div>
         </nav>
 
@@ -55,7 +55,7 @@ export function AlurakutMenu({ githubUser }) {
 }
 AlurakutMenu.Wrapper = styled.header`
   width: 100%;
-  background-color: #308BC5;
+  background-color: #f7f92f;
 
   .alurakutMenuProfileSidebar {
     background: white;
@@ -97,7 +97,7 @@ AlurakutMenu.Wrapper = styled.header`
   }
 
   .container {
-    background-color: #308BC5;
+    background-color: #333312;
     padding: 7px 16px;
     max-width: 1110px;
     margin: auto;
@@ -132,7 +132,7 @@ AlurakutMenu.Wrapper = styled.header`
         text-decoration: none;
         &:after {
           content: " ";
-          background-color: #5292C1;
+          background-color: #000000;
           display: block;
           position: absolute;
           width: 1px;
@@ -146,7 +146,7 @@ AlurakutMenu.Wrapper = styled.header`
     }
     input {
       color: #ffffff;
-      background: #5579A1;
+      background: #000000;
       padding: 10px 42px;
       border: 0;
       background-image: url(${`${BASE_URL}/icons/search.svg`});
@@ -218,7 +218,7 @@ export function AlurakutProfileSidebarMenuDefault() {
             GitHub Trends
           </a>
         <a href="/logout">
-          <img src={`${BASE_URL}//icons/logout.svg`} />
+          <img src={`${BASE_URL}/icons/logout.svg`} />
             Sair
           </a>
       </nav>
@@ -329,11 +329,11 @@ const AlurakutLoginScreen = css`
     --backgroundPrimary: #D9E6F6;
     --backgroundSecondary: #F1F9FE;
     --backgroundTertiary: #FFFFFF;
-    --backgroundQuarternary: #BBCDE8;
+    --backgroundQuarternary: #ffffffcf;
     --colorPrimary: #2E7BB4;
     --colorSecondary: #388BB0;
     --colorTertiary: #2F4A71;
-    --colorQuarternary: #D81D99;
+    --colorQuarternary: #32CD32;
     --textPrimaryColor: #333333;
     --textSecondaryColor: #FFFFFF;
     --textTertiaryColor: #5A5A5A;
